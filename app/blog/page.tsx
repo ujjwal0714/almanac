@@ -26,67 +26,49 @@ export default function BlogIndex() {
           <ThemeToggle />
         </div>
       </div>
+      
+      {/* Initial Welcome */}
+      <div className="min-h-screen flex items-center justify-center bg-[--bg] px-4">
+        <div className="w-[80%] border border-dashed border-[--border] rounded-2xl bg-[--bg] shadow-sm p-8 text-center">
 
-      <div className="page-body">
-        <div className="index-header">
-          <h1 className="index-title">
-            My <em>Notes</em>
+          {/* Title */}
+          <h1 className="inline-block text-3xl md:text-4xl font-extrabold tracking-tight px-4 py-2 border border-[--border] rounded-lg mb-4">
+            dtBOM&apos;s Almanac
           </h1>
-          <p className="index-desc">
-            Personal notes, references, and write-ups — synced from Typora.
+
+          {/* Subtitle */}
+          <p className="text-lg md:text-xl text-[--text2] mb-4">
+            Personal notes, references, and write-ups.
           </p>
+
+          {/* Description */}
+          <p className="text-base leading-relaxed text-[--text3] max-w-2xl mx-auto">
+            A growing collection of ideas I learn and revisit — spanning development,
+            systems, and concepts worth keeping.
+          </p>
+
+          {/* Footer note */}
+          <p className="text-sm text-[--text4] mt-8">
+            Navigate using the sidebar or jump directly into any topic.
+          </p>
+
         </div>
-
-        {rootNotes.length > 0 && (
-          <div className="folder-section">
-            {rootNotes.map(note => (
-              <NoteCard key={note.href} note={note} />
-            ))}
-          </div>
-        )}
-
-        {folderNames.map(folder => (
-          <div key={folder} className="folder-section">
-            <div className="folder-heading">
-              <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4">
-                <path d="M1 3.5A1.5 1.5 0 012.5 2h3.172a1.5 1.5 0 011.06.44l.829.828A1.5 1.5 0 008.62 3.75H13.5A1.5 1.5 0 0115 5.25v7a1.5 1.5 0 01-1.5 1.5h-11A1.5 1.5 0 011 12.25V3.5z"/>
-              </svg>
-              {folder.replace(/-/g, ' ')}
-              <span style={{ fontWeight: 400, opacity: 0.7 }}>{grouped[folder].length}</span>
-            </div>
-            {grouped[folder].map(note => (
-              <NoteCard key={note.href} note={note} />
-            ))}
-          </div>
-        ))}
-
-        {notes.length === 0 && (
-          <p style={{ color: 'var(--text4)', fontSize: '13px', marginTop: '32px' }}>
-            No notes yet. Add <code style={{ fontSize: '12px' }}>.md</code> files to the{' '}
-            <code style={{ fontSize: '12px' }}>notes/</code> folder.
-          </p>
-        )}
+      </div>
+      {/* Subject Tiles */}
+      <h1> Explore </h1>
+      <div className='grid grid-cols-5 justify-evenly border-2'>
+        <div className='physics w-12.5 h-12.5 border-2 content-center p-2 m-2'> <img className='' src="https://i.pinimg.com/736x/a6/01/3a/a6013a6cf972eacd63bce8172feae089.jpg"/> </div>
+        <div className='physics w-12.5 h-12.5 border-2 content-center'> <img className='' src="https://i.pinimg.com/736x/a6/01/3a/a6013a6cf972eacd63bce8172feae089.jpg"/> </div>
+        <div className='physics w-12.5 h-12.5 border-2 content-center'> <img className='' src="https://i.pinimg.com/736x/a6/01/3a/a6013a6cf972eacd63bce8172feae089.jpg"/> </div>
+        <div className='physics w-12.5 h-12.5 border-2 content-center'> <img className='' src="https://i.pinimg.com/736x/a6/01/3a/a6013a6cf972eacd63bce8172feae089.jpg"/> </div>
+        <div className='physics w-12.5 h-12.5 border-2 content-center'> <img className='' src="https://i.pinimg.com/736x/a6/01/3a/a6013a6cf972eacd63bce8172feae089.jpg"/> </div>
+        <div className='physics w-12.5 h-12.5 border-2 content-center'> <img className='' src="https://i.pinimg.com/736x/a6/01/3a/a6013a6cf972eacd63bce8172feae089.jpg"/> </div>
+        <div className='physics w-12.5 h-12.5 border-2 content-center'> <img className='' src="https://i.pinimg.com/736x/a6/01/3a/a6013a6cf972eacd63bce8172feae089.jpg"/> </div>
+        <div className='physics w-12.5 h-12.5 border-2 content-center'> <img className='' src="https://i.pinimg.com/736x/a6/01/3a/a6013a6cf972eacd63bce8172feae089.jpg"/> </div>
+        <div className='physics w-12.5 h-12.5 border-2 content-center'> <img className='' src="https://i.pinimg.com/736x/a6/01/3a/a6013a6cf972eacd63bce8172feae089.jpg"/> </div>
+        <div className='physics w-12.5 h-12.5 border-2 content-center'> <img className='' src="https://i.pinimg.com/736x/a6/01/3a/a6013a6cf972eacd63bce8172feae089.jpg"/> </div>
+        <div className='physics w-12.5 h-12.5 border-2 content-center'> <img className='' src="https://i.pinimg.com/736x/a6/01/3a/a6013a6cf972eacd63bce8172feae089.jpg"/> </div>
       </div>
     </div>
-  )
-}
-
-function NoteCard({ note }: { note: ReturnType<typeof getAllNotes>[0] }) {
-  return (
-    <Link href={note.href} className="note-card">
-      <div className="note-card-left">
-        <div className="note-card-title">{note.title}</div>
-        {note.description && (
-          <div className="note-card-desc">{note.description}</div>
-        )}
-      </div>
-      {note.date && (
-        <span className="note-card-date">
-          {new Date(note.date).toLocaleDateString('en-US', {
-            year: 'numeric', month: 'short', day: 'numeric',
-          })}
-        </span>
-      )}
-    </Link>
   )
 }

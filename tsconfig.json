@@ -16,6 +16,6 @@
     "plugins": [{ "name": "next" }],
     "paths": { "@/*": ["./*"] }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "lib/notes.js", "components/PrintButton.jsx", "components/ThemeToggle.jsx", "components/VirtualNote.jsx", "components/BlogShell.jsx"],
   "exclude": ["node_modules"]
 }

@@ -1,6 +1,8 @@
+@import "tailwindcss";
+
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&display=swap');
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; } */
 
 /* ── Theme variables ──────────────────────────────────────── */
 :root {
@@ -80,7 +82,7 @@
 
 /* ── Base ─────────────────────────────────────────────────── */
 html {
-  font-size: 10.5px;
+  /* font-size: 10.5px; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
@@ -166,7 +168,6 @@ a:hover { text-decoration: underline; }
 .sidebar-nav { padding: 6px 0 16px; flex: 1; }
 
 /* ── Tree ─────────────────────────────────────────────────── */
-.tree-folder { }
 
 .tree-folder-row {
   display: flex;
@@ -315,44 +316,15 @@ a:hover { text-decoration: underline; }
   flex-shrink: 0;
 }
 
-.theme-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  background: var(--bg2);
-  color: var(--text3);
-  cursor: pointer;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
-}
-
-.theme-toggle:hover {
-  background: var(--bg3);
-  color: var(--text2);
-  border-color: var(--border2);
-}
-
-.print-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  background: var(--bg2);
-  color: var(--text3);
-  cursor: pointer;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
-}
-
-.print-btn:hover {
-  background: var(--bg3);
-  color: var(--text2);
-  border-color: var(--border2);
+.header-btns {
+  @apply flex items-center justify-center
+         w-[30px] h-[30px]
+         rounded-[var(--radius)]
+         border border-[--border]
+         bg-[--bg2] text-[--text3]
+         cursor-pointer
+         transition-colors duration-150
+         hover:bg-[--bg3] hover:text-[--text2] hover:border-[--border2];
 }
 
 .tag-pill {
@@ -458,7 +430,7 @@ a:hover { text-decoration: underline; }
 }
 
 /* ── Note page ────────────────────────────────────────────── */
-.note-header { margin-bottom: 26px; }
+/* .note-header { margin-bottom: 26px; }
 
 .note-title {
   font-family: var(--font-sans);
@@ -485,10 +457,10 @@ a:hover { text-decoration: underline; }
   font-size: 11px;
   color: var(--text4);
   font-family: var(--font-mono);
-}
+} */
 
 /* ── Prose — mirrors print.css ───────────────────────────── */
-.prose {
+/* .prose {
   color: var(--text);
   font-size: 13.5px;
   line-height: 1.65;
@@ -503,9 +475,9 @@ a:hover { text-decoration: underline; }
   margin-top: var(--heading-margin-top);
   margin-bottom: var(--heading-margin-bottom);
   page-break-after: avoid;
-}
+} */
 
-.prose h1 {
+/* .prose h1 {
   font-size: 1.75em;
   font-weight: 700;
   color: var(--heading);
@@ -590,7 +562,6 @@ a:hover { text-decoration: underline; }
 
 .prose li > p { margin: 0.2em 0; }
 
-/* Task lists */
 .prose input[type="checkbox"] {
   appearance: none;
   width: 12px;
@@ -731,7 +702,7 @@ a:hover { text-decoration: underline; }
 
 .prose sup { top: -0.5em; }
 .prose sub { bottom: -0.25em; }
-.prose abbr[title] { border-bottom: 1px dotted var(--border2); cursor: help; }
+.prose abbr[title] { border-bottom: 1px dotted var(--border2); cursor: help; } */
 
 /* ── Not found ────────────────────────────────────────────── */
 .not-found {
@@ -790,7 +761,7 @@ a:hover { text-decoration: underline; }
 }
 
 /* ── Print (your print.css adapted) ──────────────────────── */
-@media print {
+/* @media print {
   @page {
     size: A4;
     margin: 10mm 10mm 15mm 10mm;
@@ -874,4 +845,124 @@ a:hover { text-decoration: underline; }
 
   .note-meta-date { font-size: 9pt; }
   .tag-pill { border: 1px solid #ccc; background: #f0f0f0; color: #333; }
+} */
+
+/* ── highlight.js code syntax (github-like, theme-aware) ─── */
+/* .hljs { background: transparent; color: var(--text); }
+.hljs-comment, .hljs-quote { color: var(--text4); font-style: italic; }
+.hljs-keyword, .hljs-selector-tag, .hljs-built_in { color: #c678dd; }
+[data-theme="dark"] .hljs-keyword,
+[data-theme="dark"] .hljs-selector-tag,
+[data-theme="dark"] .hljs-built_in { color: #c678dd; }
+.hljs-string, .hljs-attr { color: #98c379; }
+[data-theme="dark"] .hljs-string, [data-theme="dark"] .hljs-attr { color: #98c379; }
+.hljs-number, .hljs-literal { color: #d19a66; }
+.hljs-title, .hljs-name, .hljs-type { color: #61afef; }
+.hljs-variable, .hljs-params { color: var(--text2); }
+.hljs-meta { color: #56b6c2; } */
+
+/* Light mode overrides */
+/* :root .hljs-keyword, :root .hljs-selector-tag { color: #7c4dff; }
+:root .hljs-string, :root .hljs-attr { color: #388e3c; }
+:root .hljs-number, :root .hljs-literal { color: #e65100; }
+:root .hljs-title, :root .hljs-name, :root .hljs-type { color: #1565c0; }
+:root .hljs-comment, :root .hljs-quote { color: #999; } */
+
+/* ── KaTeX overrides ────────────────────────────────────────
+.katex { font-size: 1.05em; }
+.katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.5em 0; } */
+
+/* ── Virtual note — chunk-based rendering ────────────────── */
+
+/* Disable text selection and right-click on all note content */
+.virtual-note {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
 }
+
+/* Each chunk row — acts as the IntersectionObserver sentinel */
+.chunk-row {
+  width: 100%;
+  /* No extra padding — the prose inside handles spacing */
+}
+
+/* Loading state — centred spinner placeholder */
+/* .chunk-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  width: 100%;
+}
+
+.chunk-spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--border2);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: chunk-spin 0.7s linear infinite;
+} */
+
+.chunk-loading{
+  height: 120px;
+  width: 100%;
+  /* border: 2px solid black;  */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 200px;
+}
+.chunk-spinner{
+  height: 50px;
+  width: 50px;
+  border: 2px solid rgba(0, 0, 0, 0.482);
+  background: url('./../public/dtbom.png') center/80%  no-repeat rgb(112, 176, 255);
+  /* box-shadow: 8px 0px 25px 0px rgba(0, 0, 0, 0.29); */
+  transform-style: preserve-3d;
+  border-radius: 5px;
+  animation: sqr 2s linear infinite forwards;
+}
+@keyframes sqr {
+  0%{transform: rotateX(0) rotateY(0);}
+  25%{transform: rotateX(-180deg) rotateY(0);}
+  50%{transform: rotateX(-180deg) rotateY(-180deg);}
+  75%{transform: rotateX(0) rotateY(-180deg);}
+  100%{transform: rotateX(0) rotateY(0);}
+}
+
+/* @keyframes chunk-spin {
+  to { transform: rotate(360deg); }
+} */
+
+/* Error / retry state */
+.chunk-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  font-size: 12px;
+  color: var(--text4);
+  cursor: pointer;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  margin: 8px 0;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.chunk-error:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* Print: force all content visible, remove virtual behaviour
+@media print {
+  .virtual-note {
+    user-select: text !important;
+    -webkit-user-select: text !important;
+  }
+  .chunk-loading,
+  .chunk-error { display: none !important; }
+} */

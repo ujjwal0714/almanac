@@ -2,14 +2,8 @@
 
 import { useState } from 'react'
 import Sidebar from './Sidebar'
-import type { AnyNode } from '@/lib/notes'
 
-interface Props {
-  tree: AnyNode[]
-  children: React.ReactNode
-}
-
-export default function BlogShell({ tree, children }: Props) {
+export default function BlogShell({ tree, children }) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -31,7 +25,7 @@ export default function BlogShell({ tree, children }: Props) {
         {/* Mobile burger — only visible on small screens via CSS */}
         <div className="mobile-topbar-strip">
           <button
-            className="mobile-menu-btn"
+            className="mobile-menu-btn border-2"
             onClick={() => setOpen(o => !o)}
             aria-label="Open navigation"
           >
@@ -46,7 +40,9 @@ export default function BlogShell({ tree, children }: Props) {
         {children}
       </div>
 
-      <style>{`
+      <style>
+        {
+        `
         .mobile-topbar-strip {
           display: none;
           padding: 10px 14px;
@@ -54,8 +50,8 @@ export default function BlogShell({ tree, children }: Props) {
         }
         @media (max-width: 768px) {
           .mobile-topbar-strip { display: flex; }
-        }
-      `}</style>
+        }`
+        }</style>
     </div>
   )
 }

@@ -11,20 +11,9 @@ interface Props {
   onClose: () => void
 }
 
-// ── Recursive tree node ───────────────────────────────────────────────────────
-
-function FolderNode({
-  node,
-  depth,
-  query,
-}: {
-  node: TreeNode
-  depth: number
-  query: string
-}) {
+function FolderNode({ node, depth, query }: { node: TreeNode; depth: number; query: string }) {
   const pathname = usePathname()
 
-  // Auto-expand if a child is active or query matches
   const hasActiveChild = (nodes: AnyNode[]): boolean =>
     nodes.some(n =>
       n.type === 'leaf'
@@ -34,25 +23,19 @@ function FolderNode({
 
   const [open, setOpen] = useState(() => hasActiveChild(node.children))
 
-  // Re-check when pathname changes
   useEffect(() => {
     if (hasActiveChild(node.children)) setOpen(true)
   }, [pathname])
 
-  // Filter children by search query
   const matchesQuery = (nodes: AnyNode[], q: string): AnyNode[] => {
     if (!q) return nodes
     return nodes.flatMap(n => {
       if (n.type === 'leaf') {
-        return n.title.toLowerCase().includes(q) ||
-          n.slug.join('/').toLowerCase().includes(q)
-          ? [n]
-          : []
+        return n.title.toLowerCase().includes(q) || n.slug.join('/').toLowerCase().includes(q)
+          ? [n] : []
       }
       const filteredChildren = matchesQuery(n.children, q)
-      return filteredChildren.length > 0
-        ? [{ ...n, children: filteredChildren }]
-        : []
+      return filteredChildren.length > 0 ? [{ ...n, children: filteredChildren }] : []
     })
   }
 
@@ -64,30 +47,12 @@ function FolderNode({
   return (
     <div className={`tree-folder ${depthClass}`}>
       <div className="tree-folder-row" onClick={() => setOpen(o => !o)}>
-        {/* Chevron */}
-        <svg
-          className={`tree-chevron ${open ? 'open' : ''}`}
-          viewBox="0 0 12 12"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
+        <svg className={`tree-chevron ${open ? 'open' : ''}`} viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <path d="M4 2l4 4-4 4" />
         </svg>
-
-        {/* Folder icon */}
-        <svg
-          className="tree-folder-icon"
-          viewBox="0 0 16 16"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.2"
-        >
+        <svg className="tree-folder-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.2">
           <path d="M1 3.5A1.5 1.5 0 012.5 2h3.172a1.5 1.5 0 011.06.44l.829.828A1.5 1.5 0 008.62 3.75H13.5A1.5 1.5 0 0115 5.25v7a1.5 1.5 0 01-1.5 1.5h-11A1.5 1.5 0 011 12.25V3.5z" />
         </svg>
-
         <span className="tree-folder-name">{node.label}</span>
         <span className="tree-folder-count">{node.count}</span>
       </div>
@@ -109,20 +74,13 @@ function LeafLink({ href, title, depth }: { href: string; title: string; depth: 
   const pathname = usePathname()
   const active = pathname === href
   const depthClass = `depth-${Math.min(depth, 2)}`
-
   return (
-    <Link
-      href={href}
-      className={`nav-link ${depthClass} ${active ? 'active' : ''}`}
-      title={title}
-    >
+    <Link href={href} className={`nav-link ${depthClass} ${active ? 'active' : ''}`} title={title}>
       <span className="nav-link-dot" />
       {title}
     </Link>
   )
 }
-
-// ── Main Sidebar ──────────────────────────────────────────────────────────────
 
 export default function Sidebar({ tree, isOpen, onClose }: Props) {
   const pathname = usePathname()
@@ -130,17 +88,14 @@ export default function Sidebar({ tree, isOpen, onClose }: Props) {
 
   useEffect(() => { onClose() }, [pathname])
 
-  // Filter root-level leaves by query
   const filteredTree = query
     ? tree.flatMap(n => {
         if (n.type === 'leaf') {
           const q = query.toLowerCase()
-          return n.title.toLowerCase().includes(q) ||
-            n.slug.join('/').toLowerCase().includes(q)
-            ? [n]
-            : []
+          return n.title.toLowerCase().includes(q) || n.slug.join('/').toLowerCase().includes(q)
+            ? [n] : []
         }
-        return [n] // folder nodes filter internally
+        return [n]
       })
     : tree
 
@@ -171,14 +126,8 @@ export default function Sidebar({ tree, isOpen, onClose }: Props) {
             <LeafLink key={i} href={node.href} title={node.title} depth={0} />
           )
         )}
-
         {filteredTree.length === 0 && (
-          <div style={{
-            padding: '20px 12px',
-            fontSize: '12px',
-            color: 'var(--text4)',
-            textAlign: 'center',
-          }}>
+          <div style={{ padding: '20px 12px', fontSize: '12px', color: 'var(--text4)', textAlign: 'center' }}>
             No notes match &ldquo;{query}&rdquo;
           </div>
         )}

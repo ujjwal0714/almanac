@@ -3,12 +3,12 @@
 import { useEffect, useState } from 'react'
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light')
+  const [theme, setTheme] = useState('light')
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     // Read saved preference or system default
-    const saved = localStorage.getItem('theme') as 'light' | 'dark' | null
+    const saved = localStorage.getItem('theme')
     const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches
     const initial = saved ?? (systemDark ? 'dark' : 'light')
     setTheme(initial)
@@ -25,7 +25,7 @@ export default function ThemeToggle() {
 
   // Avoid flash before mount
   if (!mounted) return (
-    <button className="theme-toggle" aria-label="Toggle theme" style={{ opacity: 0 }}>
+    <button className="btn" aria-label="Toggle theme" style={{ opacity: 0 }}>
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <circle cx="12" cy="12" r="5"/>
       </svg>
@@ -34,18 +34,18 @@ export default function ThemeToggle() {
 
   return (
     <button
-      className="theme-toggle"
+      className="header-btns"
       onClick={toggle}
       aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
       title={theme === 'light' ? 'Dark mode' : 'Light mode'}
     >
       {theme === 'light' ? (
-        /* Moon icon */
+        // Moon icon
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
         </svg>
       ) : (
-        /* Sun icon */
+        // Sun icon
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="12" cy="12" r="5"/>
           <line x1="12" y1="1" x2="12" y2="3"/>

@@ -3,7 +3,7 @@ import { getNoteBySlug } from '@/lib/notes'
 
 const CHUNK_SIZE = 8
 
-function splitIntoChunks(html: string, size: number): string[] {
+function splitIntoChunks(html, size){
   const parts = html
     .split(/(?=<(?:h[1-6]|p|ul|ol|pre|blockquote|table|div|hr|figure)[\s\/>])/i)
     .map(s => s.trim())
@@ -11,14 +11,14 @@ function splitIntoChunks(html: string, size: number): string[] {
 
   if (parts.length === 0) return [html]
 
-  const chunks: string[] = []
+  const chunks = []
   for (let i = 0; i < parts.length; i += size) {
     chunks.push(parts.slice(i, i + size).join('\n'))
   }
   return chunks
 }
 
-export async function GET(req: NextRequest) {
+export async function GET(req) {
   const { searchParams } = new URL(req.url)
   const slugParam  = searchParams.get('slug')
   const chunkIndex = parseInt(searchParams.get('chunk') ?? '0', 10)

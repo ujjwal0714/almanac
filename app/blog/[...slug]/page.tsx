@@ -4,9 +4,11 @@ import Link from 'next/link'
 import ThemeToggle from '@/components/ThemeToggle'
 import PrintButton from '@/components/PrintButton'
 import VirtualNote from '@/components/VirtualNote'
+import dynamic from 'next/dynamic'
 import type { Metadata } from 'next'
 
-// Reuse the same splitter as the API route so chunk counts match
+const PDFViewer = dynamic(() => import('@/components/PDFViewer'), { ssr: false })
+
 const CHUNK_SIZE = 8
 
 function splitIntoChunks(html: string, size: number): string[] {
@@ -47,14 +49,8 @@ export default function NotePage({ params }: Props) {
     notFound()
   }
 
-  const { meta, bodyHtml } = note
+  const { meta, type } = note
   const breadcrumbs = meta.slug.slice(0, -1)
-
-  // Split on the server so we know totalChunks and can SSR chunk 0
-  const chunks      = splitIntoChunks(bodyHtml, CHUNK_SIZE)
-  const totalChunks = chunks.length
-  const firstHtml   = chunks[0] ?? ''
-  const slugStr     = meta.slug.join('/')
 
   return (
     <div>
@@ -74,18 +70,27 @@ export default function NotePage({ params }: Props) {
         </div>
 
         <div className="topbar-right">
-          <PrintButton />
+          {/* Hide print button for PDFs — browser handles that */}
+          {type === 'html' && <PrintButton />}
           <ThemeToggle />
         </div>
       </div>
 
-      <article className="page-body">
-        <VirtualNote
-          slug={slugStr}
-          totalChunks={totalChunks}
-          firstHtml={firstHtml}
-        />
-      </article>
+      {type === 'pdf' ? (
+        <div className="page-body">
+          <PDFViewer
+            url={`/api/pdf?file=${encodeURIComponent(note.filePath)}`}
+          />
+        </div>
+      ) : (
+        <article className="page-body">
+          <VirtualNote
+            slug={meta.slug.join('/')}
+            totalChunks={splitIntoChunks(note.bodyHtml, CHUNK_SIZE).length}
+            firstHtml={splitIntoChunks(note.bodyHtml, CHUNK_SIZE)[0] ?? ''}
+          />
+        </article>
+      )}
     </div>
   )
 }
